@@ -102,7 +102,7 @@ public class MoGeni {
 					Thread.sleep(60000);
 					loginPage.chatboxtext.sendKeys(Keys.ENTER);
 
-					Thread.sleep(15000);
+					Thread.sleep(10000);
 					try {
 						WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
 						WebElement chatresponse = wait.until(ExpectedConditions.visibilityOfElementLocated(

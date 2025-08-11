@@ -3,12 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="piyush.MoGeni">
+      <class name="piyush.Bonds">
         <methods>
+          <include name="mainMethod"/>
+          <include name="closebrowser"/>
           <include name="openbrowser"/>
-          <include name="chattest"/>
         </methods>
-      </class> <!-- piyush.MoGeni -->
+      </class> <!-- piyush.Bonds -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

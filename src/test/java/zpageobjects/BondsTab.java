@@ -18,10 +18,10 @@ public class BondsTab {
 	@FindBy(xpath = "//a[text()=\"Check Status\"]")
 	public WebElement checkStatus;
 
-	@FindBy(xpath = "//a[@href='https://bondgateway.motilaloswal.com/cgb/pdf/REC_Information_Memorandum_Series_XIX.pdf']//button[@class='bg-primaryWhite cursor-pointer border-1-primaryLightBlue border-radius-4 text-primaryLightBlue bold-600 d-flex justify-content-center align-items-center text-center gap-8']")
+	@FindBy(xpath = "(//span[text()=\"Download\"])[2]")
 	public WebElement informationdownload;
 
-	@FindBy(xpath = "/html[1]/body[1]/div[2]/main[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[5]/div[1]/a[1]/button[1]")
+	@FindBy(xpath = "//span[text()=\"Download\"]")
 	public WebElement issuehighlightsdownload;
 
 	@FindBy(xpath = "//span[text()=\"Review and Confirm\"]")
@@ -60,7 +60,7 @@ public class BondsTab {
 	@FindBy(xpath = "//span[text()=\"Repayment Schedule\"]")
 	public WebElement repaymentschedule;
 
-	@FindBy(css = "btn btn-lg btn-block investNowBtn text-center bold-500 border-0 py-3 text-white bg-primaryLightBlue")
+	@FindBy(xpath = "//button[text()=\"INVEST NOW\"]")
 	public WebElement investNowButton;
 
 	@FindBy(xpath = "//div[text()='Security Description']")

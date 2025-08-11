@@ -24,7 +24,7 @@ public class Bonds {
 	TableLogger logger = new TableLogger();
 	String websiteurl = "https://invest.motilaloswal.com/";
 	String clientid = "9819635650";
-	String password = "July@2025";
+	String password = "Aug@2025$";
 	String Status;
 	int otpwait = 40000;
 
@@ -75,7 +75,7 @@ public class Bonds {
 		Bondstab();
 		corporatebonds();
 		Selectanybond();
-		investnow();
+		// investnow();
 		repaymentschedule();
 		downloadmemorandum();
 		downloadratingrationale();
@@ -83,7 +83,6 @@ public class Bonds {
 		governmentsecurites();
 		fiftyfourecbond();
 		selectfiftyfourecbond();
-		clicksubmitbutton();
 		clicksubmitbutton();
 		downloadissuehighlights();
 		downloadinformation();
@@ -143,7 +142,6 @@ public class Bonds {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		Thread.sleep(5000);
 		long startTime = System.currentTimeMillis();
-
 		try {
 			bondsTab.corporateBondsinvestButton.click();
 			wait.until(ExpectedConditions.visibilityOf(bondsTab.securitydiscription));
@@ -158,23 +156,29 @@ public class Bonds {
 	}
 
 	public void investnow() throws InterruptedException {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.visibilityOf(bondsTab.corporateBondsinvestButton));
 		bondsTab.investNowButton.click();
 		Thread.sleep(1000);
 		long startTime = System.currentTimeMillis();
 		try {
-			Thread.sleep(1000);
+			wait.until(ExpectedConditions.visibilityOf(bondsTab.investreview));
 			bondsTab.investreview.isDisplayed();
 			Status = "Pass";
 		} catch (Exception e) {
 			Status = "Fail";
 		} finally {
-			driver.navigate().back();
+			// driver.navigate().back();
 			long endTime = System.currentTimeMillis();
 			logger.logTableRow("Corporate bonds Invest now", Status, endTime - startTime);
 		}
 	}
 
 	public void repaymentschedule() {
+		/*
+		 * bondsTab.investTab.click(); bondsTab.corporatebonds.click();
+		 * bondsTab.corporateBondsinvestButton.click();
+		 */
 		bondsTab.repaymentschedule.click();
 		long startTime = System.currentTimeMillis();
 		try {
@@ -206,8 +210,10 @@ public class Bonds {
 		bondsTab.downloadmemorandum.click();
 		Thread.sleep(1000);
 		Set<String> windowHandles = driver.getWindowHandles();
+		String newWindow = null;
 		for (String handle : windowHandles) {
 			if (!handle.equals(pdfWindow)) {
+				newWindow = handle;
 				driver.switchTo().window(handle);
 				break;
 			}
@@ -222,18 +228,22 @@ public class Bonds {
 			Status = "Fail";
 		} finally {
 			driver.close();
+			driver.switchTo().window(pdfWindow);
 			long endTime = System.currentTimeMillis();
+			System.out.println(newWindow);
 			logger.logTableRow("Corporate bonds Download  \u2192 Information Memorandum", Status, endTime - startTime);
 		}
 	}
 
 	public void downloadratingrationale() throws InterruptedException {
-		bondsTab.ratingRationale.click();
 		String ratingwindow = driver.getWindowHandle();
+		bondsTab.ratingRationale.click();
 		Thread.sleep(1000);
 		Set<String> windowHandles = driver.getWindowHandles();
+		String newWindow = null;
 		for (String handle : windowHandles) {
 			if (!handle.equals(ratingwindow)) {
+				newWindow = handle;
 				driver.switchTo().window(handle);
 				break;
 			}
@@ -248,7 +258,9 @@ public class Bonds {
 			Status = "Fail";
 		} finally {
 			driver.close();
+			driver.switchTo().window(ratingwindow);
 			long endTime = System.currentTimeMillis();
+			System.out.println(newWindow);
 			logger.logTableRow("Corporate bonds Download \u2192 Rating Rationale", Status, endTime - startTime);
 		}
 
@@ -335,6 +347,7 @@ public class Bonds {
 	}
 
 	public void clicksubmitbutton() throws InterruptedException {
+		String awindow = driver.getWindowHandle();
 		bondsTab.investTab.click();
 		bondsTab.fiftyfourECcapitalgainbond.click();
 		Thread.sleep(1000);
@@ -342,107 +355,130 @@ public class Bonds {
 		Thread.sleep(1000);
 		bondsTab.fiftyfourbondsublitButton.click();
 		Thread.sleep(1000);
-		String orignalWindow = driver.getWindowHandle();
 		Set<String> windowHandles = driver.getWindowHandles();
+		String newWindow = null;
 		for (String handle : windowHandles) {
-			if (!handle.equals(orignalWindow)) {
+			if (!handle.equals(awindow)) {
+				newWindow = handle;
 				driver.switchTo().window(handle);
 				break;
 			}
-			long startTime = System.currentTimeMillis();
-			try {
-				Thread.sleep(1000);
-				String title = driver.getTitle();
-				System.out.println("clicksubmitbutton()" + title);
-				title.equals("MO Investor");
-				Status = "Pass";
-			} catch (Exception e) {
-				Status = "Fail";
-			} finally {
-				driver.close();
-				long endTime = System.currentTimeMillis();
-				logger.logTableRow("54 EC bonds Click on submit button", Status, endTime - startTime);
-			}
+		}
+		long startTime = System.currentTimeMillis();
+		try {
+			Thread.sleep(1000);
+			String title = driver.getTitle();
+			System.out.println("clicksubmitbutton()" + title);
+			title.equals("MO Investor");
+			Status = "Pass";
+		} catch (Exception e) {
+			Status = "Fail";
+		} finally {
+			driver.close();
+			driver.switchTo().window(awindow);
+			long endTime = System.currentTimeMillis();
+			System.out.println(newWindow);
+			logger.logTableRow("54 EC bonds Click on submit button", Status, endTime - startTime);
+
 		}
 	}
 
 	public void downloadissuehighlights() throws InterruptedException {
+		String mWindow = driver.getWindowHandle();
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,400)");
 		bondsTab.issuehighlightsdownload.click();
 		Thread.sleep(1000);
-		String mainWindow = driver.getWindowHandle();
+
 		Set<String> windowHandles = driver.getWindowHandles();
+		String newWindow = null;
 		for (String handle : windowHandles) {
-			if (!handle.equals(mainWindow)) {
+			if (!handle.equals(mWindow)) {
+				newWindow = handle;
 				driver.switchTo().window(handle);
 				break;
 			}
-			long startTime = System.currentTimeMillis();
-			try {
-				String downloadissuetitle = driver.getTitle();
-				Thread.sleep(1000);
-				System.out.println("downloadissuehighlights()" + downloadissuetitle);
-				downloadissuetitle.equals("MO Investor");
-				Status = "Pass";
-			} catch (Exception e) {
-				Status = "Fail";
-			} finally {
-				driver.close();
-				long endTime = System.currentTimeMillis();
-				logger.logTableRow("54 EC bonds issue highlights pdf download", Status, endTime - startTime);
-			}
+		}
+		long startTime = System.currentTimeMillis();
+		try {
+			String downloadissuetitle = driver.getTitle();
+			Thread.sleep(1000);
+			System.out.println("downloadissuehighlights()" + downloadissuetitle);
+			downloadissuetitle.equals("MO Investor");
+			Status = "Pass";
+		} catch (Exception e) {
+			Status = "Fail";
+		} finally {
+			driver.close();
+			driver.switchTo().window(mWindow);
+			long endTime = System.currentTimeMillis();
+			System.out.println(newWindow);
+			logger.logTableRow("54 EC bonds issue highlights pdf download", Status, endTime - startTime);
+
 		}
 
 	}
 
 	public void downloadinformation() {
-		bondsTab.informationdownload.click();
 		String informationWindow = driver.getWindowHandle();
+		bondsTab.informationdownload.click();
 		Set<String> windowHandles = driver.getWindowHandles();
+		String newWindow = null;
 		for (String handle : windowHandles) {
 			if (!handle.equals(informationWindow)) {
+				newWindow = handle;
 				driver.switchTo().window(handle);
 				break;
 			}
-			long startTime = System.currentTimeMillis();
-			try {
-				String downloadinformation = driver.getTitle();
-				Thread.sleep(1000);
-				System.out.println("downloadinformation()" + downloadinformation);
-				downloadinformation.equals("MO Investor");
-				Status = "Pass";
-			} catch (Exception e) {
-				Status = "Fail";
-			} finally {
-				driver.close();
-				long endTime = System.currentTimeMillis();
-				logger.logTableRow("54 EC bonds information pdf download", Status, endTime - startTime);
-			}
+		}
+		long startTime = System.currentTimeMillis();
+		try {
+			String downloadinformation = driver.getTitle();
+			Thread.sleep(1000);
+			System.out.println("downloadinformation()" + downloadinformation);
+			downloadinformation.equals("MO Investor");
+			Status = "Pass";
+		} catch (Exception e) {
+			Status = "Fail";
+		} finally {
+			driver.close();
+			driver.switchTo().window(informationWindow);
+			long endTime = System.currentTimeMillis();
+			System.out.println(newWindow);
+			logger.logTableRow("54 EC bonds information pdf download", Status, endTime - startTime);
+
 		}
 	}
 
 	public void checkstatus() throws InterruptedException {
+		String statusWindow = driver.getWindowHandle();
 		bondsTab.checkStatus.click();
 		Thread.sleep(1000);
-		String statusWindow = driver.getWindowHandle();
+
 		Set<String> windowHandles = driver.getWindowHandles();
+		String newWindow = null;
 		for (String handle : windowHandles) {
 			if (!handle.equals(statusWindow)) {
+				newWindow = handle;
 				driver.switchTo().window(handle);
 				break;
 			}
-			long startTime = System.currentTimeMillis();
-			try {
-				String kfin = driver.getTitle();
-				System.out.println("checkstatus()" + kfin);
-				kfin.equals("MO Investor");
-				Status = "Pass";
-			} catch (Exception e) {
-				Status = "Fail";
-			} finally {
-				driver.close();
-				long endTime = System.currentTimeMillis();
-				logger.logTableRow("54 EC bonds Click on check status button", Status, endTime - startTime);
-			}
+		}
+		long startTime = System.currentTimeMillis();
+		try {
+			String kfin = driver.getTitle();
+			System.out.println("checkstatus()" + kfin);
+			kfin.equals("MO Investor");
+			Status = "Pass";
+		} catch (Exception e) {
+			Status = "Fail";
+		} finally {
+			driver.close();
+			driver.switchTo().window(statusWindow);
+			long endTime = System.currentTimeMillis();
+			System.out.println(newWindow);
+			logger.logTableRow("54 EC bonds Click on check status button", Status, endTime - startTime);
+
 		}
 
 	}
