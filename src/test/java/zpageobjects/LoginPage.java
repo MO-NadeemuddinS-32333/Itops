@@ -13,6 +13,12 @@ public class LoginPage {
 		PageFactory.initElements(driver, this);
 	}
 
+	@FindBy(xpath = "//img[@class='minus']")
+	public WebElement minimizelogo;
+	
+	@FindBy(xpath = "//p[text()=\"Welcome to your Mo Genie assistant. How can I help you today?\"]")
+	public WebElement welcometext;
+	
 	@FindBy(xpath = "//a[@id='btnVerify2FAPanDob']//img[@class='ml10']")
 	public WebElement loginbutton;
 	

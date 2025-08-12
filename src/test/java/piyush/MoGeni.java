@@ -29,9 +29,9 @@ public class MoGeni {
 	LoginPage loginPage;
 	BondsTab bondsTab;
 	String websiteurl = "https://uattrade.motilaloswaluat.com/";
-	String clientid = "E36905";
+	String clientid = "AJM5748";
 	String password = "abc@123";
-	String Dob = "AHSPP5619F";
+	String Dob = "ABWPM9023C";
 	String Status;
 
 	@BeforeTest
@@ -86,9 +86,10 @@ public class MoGeni {
 		FileInputStream fis = new FileInputStream(excelPath);
 		Workbook workbook = new XSSFWorkbook(fis);
 		Sheet sheet = workbook.getSheetAt(0);
+		Thread.sleep(25000);
 		driver.switchTo().frame("chatBotFrame");
 		loginPage.chatbotbutton.click();
-		Thread.sleep(2000);
+		Thread.sleep(25000);
 
 		for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 			Row row = sheet.getRow(i);
@@ -99,13 +100,15 @@ public class MoGeni {
 
 					loginPage.chatboxtext.clear();
 					loginPage.chatboxtext.sendKeys(question);
-					Thread.sleep(60000);
+					Thread.sleep(120000);
+					driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 					loginPage.chatboxtext.sendKeys(Keys.ENTER);
 
-					Thread.sleep(10000);
+					Thread.sleep(500);
 					try {
-						WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-						WebElement chatresponse = wait.until(ExpectedConditions.visibilityOfElementLocated(
+						WebDriverWait waitw = new WebDriverWait(driver, Duration.ofSeconds(50));
+
+						WebElement chatresponse = waitw.until(ExpectedConditions.visibilityOfElementLocated(
 								By.xpath("//*[@id='root']/div/div[1]/div[2]/div[" + (i + 1) + "]")));
 
 						String response = chatresponse.getText();
